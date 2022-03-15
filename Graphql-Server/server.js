@@ -2,7 +2,6 @@ const { ApolloServer, gql } = require("apollo-server");
 
 // Defining Schema
 const typeDefs = gql`
-
   # Schema for app
   type App {
     id: String
@@ -29,37 +28,36 @@ const typeDefs = gql`
 
   # Users can query all apps or app by id
   type Query {
-    allApps: [App],
+    allApps: [App]
     singleApp(id: String!): App
   }
   # Users can query all stages or stage by id
   type Query {
-    allStages: [Stage],
+    allStages: [Stage]
     singleStage(id: String!): Stage
   }
   # Users can query all events or event by id
   type Query {
-    allEvents: [Event],
+    allEvents: [Event]
     singleEvent(id: String!): Event
   }
 `;
 
-
 const resolvers = {
   Query: {
+    singleApp: (_, appId) => {
+      return Apps.find((app) => app.id === appId.id);
+    },
     allApps: () => Apps,
     allStages: () => Stages,
     allEvents: () => Events,
-    singleApp: (id) => {
-      return Apps.find(app => app.id === id.id) 
+    singleStage: (_, stageId) => {
+      return Stages.find((stage) => stage.id === stageId.id);
     },
-    singleStage: (id) => {
-      return Stages.find(stage => stage.id === id.id) 
+    singleEvent: (_, eventId) => {
+      return Events.find((event) => event.id === eventId.id);
     },
-    singleEvent: (id) => {
-      return Events.find(event => event.id === id.id) 
-    },
-  }
+  },
 };
 
 // The ApolloServer constructor requires two parameters: your schema
@@ -83,7 +81,7 @@ const Apps = [
   {
     id: "1235asd123-7u091239ak-1235-bc1a-3b21d5154076",
     name: "SleeperFest 2020",
-  }
+  },
 ];
 
 const Stages = [
@@ -98,7 +96,7 @@ const Stages = [
   {
     id: "a6bb97dc-224c-4f8f-9af7-fd8b5731840f",
     name: "Fo’shizzle Stage",
-  }
+  },
 ];
 
 const Events = [
@@ -156,7 +154,7 @@ const Events = [
     image: "http://assets.aloompa.com.s3.amazonaws.com/rappers/JCole.jpeg",
     startsAt: 1577923200,
     endsAt: 1577930400,
-  }
+  },
 ];
 //Query single app
 
