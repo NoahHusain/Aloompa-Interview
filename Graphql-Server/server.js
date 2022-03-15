@@ -29,33 +29,41 @@ const typeDefs = gql`
   # Users can query all apps or app by id
   type Query {
     allApps: [App]
-    singleApp(id: String!): App
+    appById(id: String!): App
   }
   # Users can query all stages or stage by id
   type Query {
     allStages: [Stage]
-    singleStage(id: String!): Stage
+    stageById(id: String!): Stage
+    stageByName(name: String!): Stage
   }
   # Users can query all events or event by id
   type Query {
     allEvents: [Event]
-    singleEvent(id: String!): Event
+    eventById(id: String!): Event
+    eventByName(name: String!): Event
   }
 `;
 
 const resolvers = {
   Query: {
-    singleApp: (_, appId) => {
-      return Apps.find((app) => app.id === appId.id);
-    },
     allApps: () => Apps,
     allStages: () => Stages,
     allEvents: () => Events,
-    singleStage: (_, stageId) => {
+    appById: (_, appId) => {
+      return Apps.find((app) => app.id === appId.id);
+    },
+    stageById: (_, stageId) => {
       return Stages.find((stage) => stage.id === stageId.id);
     },
-    singleEvent: (_, eventId) => {
+    eventById: (_, eventId) => {
       return Events.find((event) => event.id === eventId.id);
+    },
+    stageByName: (_, stageName) => {
+      return Stages.find((stage) => stage.name === stageName.name);
+    },
+    eventByName: (_, eventName) => {
+      return Events.find((event) => event.name === eventName.name);
     },
   },
 };
@@ -156,15 +164,8 @@ const Events = [
     endsAt: 1577930400,
   },
 ];
-//Query single app
-
-//Query single stage
 
 //Search stage by name
-
-//query single event
-
-//Search events by name
 
 //Query events between two dates
 
