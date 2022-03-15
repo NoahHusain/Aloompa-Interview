@@ -1,16 +1,21 @@
 const { ApolloServer, gql } = require("apollo-server");
 
+// Defining Schema
 const typeDefs = gql`
+
+  # Schema for app
   type App {
     id: String
     name: String
   }
 
+  # Schema for stage
   type Stage {
     id: String
     name: String
   }
 
+  # Schema for event
   type Event {
     id: String
     appId: String
@@ -22,16 +27,49 @@ const typeDefs = gql`
     endsAt: Int
   }
 
+  # Users can query all apps or app by id
   type Query {
-    Apps: [App]
+    allApps: [App],
+    singleApp(id: String!): App
   }
+  # Users can query all stages or stage by id
   type Query {
-    Stages: [Stage]
+    allStages: [Stage],
+    singleStage(id: String!): Stage
   }
+  # Users can query all events or event by id
   type Query {
-    Events: [Event]
+    allEvents: [Event],
+    singleEvent(id: String!): Event
   }
 `;
+
+
+const resolvers = {
+  Query: {
+    allApps: () => Apps,
+    allStages: () => Stages,
+    allEvents: () => Events,
+    singleApp: (id) => {
+      return Apps.find(app => app.id === id.id) 
+    },
+    singleStage: (id) => {
+      return Stages.find(stage => stage.id === id.id) 
+    },
+    singleEvent: (id) => {
+      return Events.find(event => event.id === id.id) 
+    },
+  }
+};
+
+// The ApolloServer constructor requires two parameters: your schema
+// definition and your set of resolvers.
+const server = new ApolloServer({ typeDefs, resolvers });
+
+// The `listen` method launches a web server.
+server.listen().then(({ url }) => {
+  console.log(`🚀  Server ready at ${url}`);
+});
 
 const Apps = [
   {
@@ -120,24 +158,6 @@ const Events = [
     endsAt: 1577930400,
   }
 ];
-
-const resolvers = {
-  Query: {
-    Events: () => Events,
-    Apps: () => Apps,
-    Stages: () => Stages,
-  }
-};
-
-// The ApolloServer constructor requires two parameters: your schema
-// definition and your set of resolvers.
-const server = new ApolloServer({ typeDefs, resolvers });
-
-// The `listen` method launches a web server.
-server.listen().then(({ url }) => {
-  console.log(`🚀  Server ready at ${url}`);
-});
-
 //Query single app
 
 //Query single stage
