@@ -38,6 +38,14 @@ const Apps = [
     id: "b810bf6d-d81d-4104-bc1a-3b21d5154076",
     name: "HipHopFest 2020",
   },
+  {
+    id: "b81232dsa9-d81d-65121-bc1a-3b1235123356",
+    name: "SnoozeFest 2020",
+  },
+  {
+    id: "1235asd123-7u091239ak-1235-bc1a-3b21d5154076",
+    name: "SleeperFest 2020",
+  }
 ];
 
 const Stages = [
@@ -52,7 +60,7 @@ const Stages = [
   {
     id: "a6bb97dc-224c-4f8f-9af7-fd8b5731840f",
     name: "Fo’shizzle Stage",
-  },
+  }
 ];
 
 const Events = [
@@ -110,19 +118,15 @@ const Events = [
     image: "http://assets.aloompa.com.s3.amazonaws.com/rappers/JCole.jpeg",
     startsAt: 1577923200,
     endsAt: 1577930400,
-  },
+  }
 ];
 
 const resolvers = {
   Query: {
-    Apps: () => Apps,
-  },
-  Query: {
-    Stages: () => Stages,
-  },
-  Query: {
     Events: () => Events,
-  },
+    Apps: () => Apps,
+    Stages: () => Stages,
+  }
 };
 
 // The ApolloServer constructor requires two parameters: your schema
@@ -134,17 +138,11 @@ server.listen().then(({ url }) => {
   console.log(`🚀  Server ready at ${url}`);
 });
 
-// List all apps
-
 //Query single app
-
-//List all stages
 
 //Query single stage
 
 //Search stage by name
-
-//List all events
 
 //query single event
 
