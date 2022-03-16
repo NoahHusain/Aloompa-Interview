@@ -47,6 +47,12 @@ const typeDefs = gql`
     findEventByApp(nameOfApp: String!): [Event]
     findEventByStage(nameOfStage: String!): [Event]
   }
+
+  type Mutation {
+    createApp(id: String!, name: String!): App
+    createStage(id: String!, name: String!): Stage
+    createEvent(id: String!, appId: String!, stageId: String!, name: String!, description: String!, image: String!, startsAt: Int!, endsAt: Int!,): Event
+  }
 `;
 
 const resolvers = {
@@ -97,8 +103,22 @@ const resolvers = {
       console.log(stageObject)
       const stageEvents = Events.filter((event) => event.stageId === stageObject.id)
       return stageEvents
-    }
+    },
   },
+    Mutation: {
+      createApp: (_, appObject) => {
+        Apps.push(appObject)
+        return(appObject)
+      },
+      createStage: (_, stageObject) => {
+        Stages.push(stageObject)
+        return(stageObject)
+      },
+      createEvent: (_, eventObject) => {
+        Events.push(eventObject)
+        return(eventObject)
+      },
+  }
 };
 
 // The ApolloServer constructor requires two parameters: your schema
