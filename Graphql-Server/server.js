@@ -42,6 +42,7 @@ const typeDefs = gql`
     allEvents: [Event]
     eventById(id: String!): Event
     eventByName(name: String!): Event
+    eventByDates(startDate: Int!, endDate: Int!): [Event]
   }
 `;
 
@@ -64,6 +65,20 @@ const resolvers = {
     },
     eventByName: (_, eventName) => {
       return Events.find((event) => event.name === eventName.name);
+    },
+    eventByDates: (_, compare) => {
+      let myDate1 = new Date(compare.startDate *1000)
+      let myDate2 = new Date(compare.endDate *1000)
+
+      console.log("Start date is " + myDate1.toLocaleString());
+      console.log("End date is " + myDate2.toLocaleString());
+
+      const dateRange = Events.filter(
+        (event) =>
+          event.startsAt >= compare.startDate &&
+          event.endsAt <= compare.endDate
+      );
+      return dateRange
     },
   },
 };
