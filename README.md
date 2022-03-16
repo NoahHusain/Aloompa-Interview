@@ -1,1 +1,36 @@
 # Aloompa-Interview
+
+GraphQL API Assignment for Aloompa.
+
+## Description
+
+This is a GraphQL API that was created as a way to practice and learn GraphQL for a take home assignment from a company. The goal of this was to create a GraphQL API that could complete all the listed objective given to me by the comapny.
+
+## Getting Started
+
+To get started using this API, clone the repo to your local machine and then CD into it via terminal.
+
+### Dependencies
+
+* Node.js (8+)
+* Apollo-Server
+* GraphQL
+
+### Installing
+
+* In command line, run "npm install --save apollo-server graphql"
+
+### Executing program
+
+* CD into Graphql-Server directory
+* Run node server.js
+* Verify in terminal you have "🚀 Server ready at <http://localhost:4000/>"
+* Ctrl + Click on link to be taken to Apollo test enviornment where you can run queries to API.
+
+## Authors
+
+Contributors names and contact info
+
+Noah Husain
+LinkedIn: https://www.linkedin.com/in/noahhusain/
+Portfolio: https://noah-husain.netlify.app/
