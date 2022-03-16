@@ -36,6 +36,7 @@ const typeDefs = gql`
     allStages: [Stage]
     stageById(id: String!): Stage
     stageByName(name: String!): Stage
+    findStageByEvent(nameOfEvent: String!): [Stage]
   }
   # Users can query all events or event by id
   type Query {
@@ -44,6 +45,7 @@ const typeDefs = gql`
     eventByName(name: String!): Event
     eventByDates(startDate: Int!, endDate: Int!): [Event]
     findEventByApp(nameOfApp: String!): [Event]
+    findEventByStage(nameOfStage: String!): [Event]
   }
 `;
 
@@ -81,11 +83,21 @@ const resolvers = {
       return dateRange;
     },
     findEventByApp: (_, appName) => {
-      console.log(appName)
       const appObject = Apps.find((app) => app.name === appName.nameOfApp);
       const appEvents = Events.filter((event) => event.appId === appObject.id);
       return appEvents;
     },
+    findStageByEvent: (_, eventName) => {
+      const eventObject = Events.find((event) => event.name === eventName.nameOfEvent);
+      const eventStage = Stages.filter((stage) => stage.id === eventObject.stageId);
+      return eventStage;
+    },
+    findEventByStage: (_, stageName) => {
+      const stageObject = Stages.find((stage) => stage.name === stageName.nameOfStage)
+      console.log(stageObject)
+      const stageEvents = Events.filter((event) => event.stageId === stageObject.id)
+      return stageEvents
+    }
   },
 };
 
@@ -196,9 +208,5 @@ const Events = [
     endsAt: 1577930400,
   },
 ];
-
-//Get the stage in an event
-
-//List events at a stage
 
 //Add, Update, Remove all entities (App, Stage, Event)
