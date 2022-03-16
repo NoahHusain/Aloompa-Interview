@@ -51,7 +51,14 @@ const typeDefs = gql`
   type Mutation {
     createApp(id: String!, name: String!): App
     createStage(id: String!, name: String!): Stage
-    createEvent(id: String!, appId: String!, stageId: String!, name: String!, description: String!, image: String!, startsAt: Int!, endsAt: Int!,): Event
+    createEvent(id: String!, appId: String!, stageId: String!, name: String!, description: String!, image: String!, startsAt: Int!, endsAt: Int!): Event
+    editApp(existingAppName: String!, id: String!, name: String! ): App
+    editStage(existingStageName: String!, id: String!, name: String!): Stage
+    editEvent(existingEventName: String!, id: String!, appId: String!, stageId: String!, name: String!, description: String!, image: String!, startsAt: Int!, endsAt: Int!): Event
+    removeApp(name: String!): App
+    removeStage(name: String!): Stage
+    removeEvent(name: String!): Event
+
   }
 `;
 
@@ -118,6 +125,34 @@ const resolvers = {
         Events.push(eventObject)
         return(eventObject)
       },
+      removeApp: (_, appName) => {
+        const appIndex = Apps.findIndex(app => appName.name === app.name)
+        Apps.splice(appIndex, 1)
+        return "Successfully removed App"
+      },
+      removeStage: (_, stageName) => {
+        const stageIndex = Stages.findIndex(stage => stageName.name === stage.name)
+        Stages.splice(stageIndex, 1)
+        return "Successfully removed Stage"
+      },
+      removeEvent: (_, eventName) => {
+        const eventIndex = Events.findIndex(event => eventName.name === event.name)
+        Events.splice(eventIndex, 1)
+        return "Successfully removed Event"
+      },
+      // editApp: (_, appObject) => {
+      //   const app = Apps.find((app) => appObject.existingAppName === app.name)
+
+      //   return(appObject)
+      // },
+      // editStage: (_, stageObject) => {
+      //   Events.push(stageObject)
+      //   return(stageObject)
+      // },
+      // editEvent: (_, eventObject) => {
+      //   Events.push(eventObject)
+      //   return(eventObject)
+      // },
   }
 };
 
