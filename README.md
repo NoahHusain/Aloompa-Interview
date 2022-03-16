@@ -1,10 +1,10 @@
 # Aloompa-Interview
 
-GraphQL API Assignment for Aloompa.
+GraphQL API assignment for Aloompa interview.
 
 ## Description
 
-This is a GraphQL API that was created as a way to practice and learn GraphQL for a take home assignment from a company. The goal of this was to create a GraphQL API that could complete all the listed objective given to me by the comapny.
+This is a GraphQL API that was created as a way to practice and learn GraphQL for a take home assignment from Aloompa. The goal of this was to create a GraphQL API that could complete all the listed objective given to me by the Aloompa.
 
 ## Getting Started
 
