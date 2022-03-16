@@ -43,6 +43,7 @@ const typeDefs = gql`
     eventById(id: String!): Event
     eventByName(name: String!): Event
     eventByDates(startDate: Int!, endDate: Int!): [Event]
+    findEventByApp(nameOfApp: String!): [Event]
   }
 `;
 
@@ -67,18 +68,23 @@ const resolvers = {
       return Events.find((event) => event.name === eventName.name);
     },
     eventByDates: (_, compare) => {
-      let myDate1 = new Date(compare.startDate *1000)
-      let myDate2 = new Date(compare.endDate *1000)
+      let myDate1 = new Date(compare.startDate * 1000);
+      let myDate2 = new Date(compare.endDate * 1000);
 
       console.log("Start date is " + myDate1.toLocaleString());
       console.log("End date is " + myDate2.toLocaleString());
 
       const dateRange = Events.filter(
         (event) =>
-          event.startsAt >= compare.startDate &&
-          event.endsAt <= compare.endDate
+          event.startsAt >= compare.startDate && event.endsAt <= compare.endDate
       );
-      return dateRange
+      return dateRange;
+    },
+    findEventByApp: (_, appName) => {
+      console.log(appName)
+      const appObject = Apps.find((app) => app.name === appName.nameOfApp);
+      const appEvents = Events.filter((event) => event.appId === appObject.id);
+      return appEvents;
     },
   },
 };
@@ -178,13 +184,18 @@ const Events = [
     startsAt: 1577923200,
     endsAt: 1577930400,
   },
+  {
+    id: "01928ui4098ui0assd-09123jnf",
+    appId: "b81232dsa9-d81d-65121-bc1a-3b1235123356",
+    stageId: "a6bb97dc-224c-4f8f-9af7-fd8b5731840f",
+    name: "DJ ForsenBajs",
+    description:
+      "ForenBajs",
+    image: "horse.jpeg",
+    startsAt: 1577923200,
+    endsAt: 1577930400,
+  },
 ];
-
-//Search stage by name
-
-//Query events between two dates
-
-//List all events in an app
 
 //Get the stage in an event
 
