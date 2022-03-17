@@ -4,7 +4,7 @@ GraphQL API assignment for Aloompa interview.
 
 ## Description
 
-This is a GraphQL API that was created as a way to practice and learn GraphQL for a take home assignment from Aloompa. The goal of this was to create a GraphQL API that could complete all the listed objective given to me by the Aloompa.
+This is a GraphQL API that was created as a way to practice and learn GraphQL for a take home assignment from Aloompa. The goal of this was to create a GraphQL API that could complete all the listed objectives given to me by the Aloompa.
 
 ## Getting Started
 
@@ -28,8 +28,6 @@ To get started using this API, clone the repo to your local machine and then CD 
 * Ctrl + Click on link to be taken to Apollo test enviornment where you can run queries to API.
 
 ## Authors
-
-Contributors names and contact info
 
 Noah Husain
 LinkedIn: https://www.linkedin.com/in/noahhusain/
