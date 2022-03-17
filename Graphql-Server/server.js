@@ -83,12 +83,6 @@ const resolvers = {
       return Events.find((event) => event.name === eventName.name);
     },
     eventByDates: (_, compare) => {
-      let myDate1 = new Date(compare.startDate * 1000);
-      let myDate2 = new Date(compare.endDate * 1000);
-
-      console.log("Start date is " + myDate1.toLocaleString());
-      console.log("End date is " + myDate2.toLocaleString());
-
       const dateRange = Events.filter(
         (event) =>
           event.startsAt >= compare.startDate && event.endsAt <= compare.endDate
@@ -107,7 +101,6 @@ const resolvers = {
     },
     findEventByStage: (_, stageName) => {
       const stageObject = Stages.find((stage) => stage.name === stageName.nameOfStage)
-      console.log(stageObject)
       const stageEvents = Events.filter((event) => event.stageId === stageObject.id)
       return stageEvents
     },
@@ -141,12 +134,9 @@ const resolvers = {
         return "Successfully removed Event"
       },
       editApp: (_, appObject) => {
-        console.log(appObject)
-        console.log(Apps)
         const appIndex = Apps.findIndex(app => appObject.nameToBeChanged === app.name)
         Apps[appIndex].id = appObject.id
         Apps[appIndex].name = appObject.name
-        console.log(Apps)
         return (appObject)
       },
       editStage: (_, stageObject) => {
