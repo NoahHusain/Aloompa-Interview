@@ -18,14 +18,15 @@ To get started using this API, clone the repo to your local machine and then CD 
 
 ### Installing
 
-* In command line, run "npm install --save apollo-server graphql"
+* In command line, cd into ```Aloompa-Interview/Graphql-Server/```
+* In command line, run ```npm install```
 
 ### Executing program
 
-* CD into Graphql-Server directory
-* Run node server.js
+* CD into ```Graphql-Server directory```
+* Run ```node server.js```
 * Verify in terminal you have "🚀 Server ready at <http://localhost:4000/>"
-* Ctrl + Click on link to be taken to Apollo test enviornment where you can run queries to API.
+* Open http://localhost:4000/ to be taken to Apollo test enviornment where you can run queries to API.
 
 ## Authors
 
