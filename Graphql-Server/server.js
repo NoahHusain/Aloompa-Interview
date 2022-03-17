@@ -51,14 +51,32 @@ const typeDefs = gql`
   type Mutation {
     createApp(id: String!, name: String!): App
     createStage(id: String!, name: String!): Stage
-    createEvent(id: String!, appId: String!, stageId: String!, name: String!, description: String!, image: String!, startsAt: Int!, endsAt: Int!): Event
-    editApp(nameToBeChanged: String!, id: String!, name: String! ): App
+    createEvent(
+      id: String!
+      appId: String!
+      stageId: String!
+      name: String!
+      description: String!
+      image: String!
+      startsAt: Int!
+      endsAt: Int!
+    ): Event
+    editApp(nameToBeChanged: String!, id: String!, name: String!): App
     editStage(nameToBeChanged: String!, id: String!, name: String!): Stage
-    editEvent(nameToBeChanged: String!, id: String!, appId: String!, stageId: String!, name: String!, description: String!, image: String!, startsAt: Int!, endsAt: Int!): Event
+    editEvent(
+      nameToBeChanged: String!
+      id: String!
+      appId: String!
+      stageId: String!
+      name: String!
+      description: String!
+      image: String!
+      startsAt: Int!
+      endsAt: Int!
+    ): Event
     removeApp(name: String!): App
     removeStage(name: String!): Stage
     removeEvent(name: String!): Event
-
   }
 `;
 
@@ -95,69 +113,87 @@ const resolvers = {
       return appEvents;
     },
     findStageByEvent: (_, eventName) => {
-      const eventObject = Events.find((event) => event.name === eventName.nameOfEvent);
-      const eventStage = Stages.filter((stage) => stage.id === eventObject.stageId);
+      const eventObject = Events.find(
+        (event) => event.name === eventName.nameOfEvent
+      );
+      const eventStage = Stages.filter(
+        (stage) => stage.id === eventObject.stageId
+      );
       return eventStage;
     },
     findEventByStage: (_, stageName) => {
-      const stageObject = Stages.find((stage) => stage.name === stageName.nameOfStage)
-      const stageEvents = Events.filter((event) => event.stageId === stageObject.id)
-      return stageEvents
+      const stageObject = Stages.find(
+        (stage) => stage.name === stageName.nameOfStage
+      );
+      const stageEvents = Events.filter(
+        (event) => event.stageId === stageObject.id
+      );
+      return stageEvents;
     },
   },
-    Mutation: {
-      createApp: (_, appObject) => {
-        Apps.push(appObject)
-        return(appObject)
-      },
-      createStage: (_, stageObject) => {
-        Stages.push(stageObject)
-        return(stageObject)
-      },
-      createEvent: (_, eventObject) => {
-        Events.push(eventObject)
-        return(eventObject)
-      },
-      removeApp: (_, appName) => {
-        const appIndex = Apps.findIndex(app => appName.name === app.name)
-        Apps.splice(appIndex, 1)
-        return "Successfully removed App"
-      },
-      removeStage: (_, stageName) => {
-        const stageIndex = Stages.findIndex(stage => stageName.name === stage.name)
-        Stages.splice(stageIndex, 1)
-        return "Successfully removed Stage"
-      },
-      removeEvent: (_, eventName) => {
-        const eventIndex = Events.findIndex(event => eventName.name === event.name)
-        Events.splice(eventIndex, 1)
-        return "Successfully removed Event"
-      },
-      editApp: (_, appObject) => {
-        const appIndex = Apps.findIndex(app => appObject.nameToBeChanged === app.name)
-        Apps[appIndex].id = appObject.id
-        Apps[appIndex].name = appObject.name
-        return (appObject)
-      },
-      editStage: (_, stageObject) => {
-        const stageIndex = Stages.findIndex(stage => stageObject.nameToBeChanged === stage.name)
-        Stages[stageIndex].id = stageObject.id
-        Stages[stageIndex].name = stageObject.name
-        return(stageObject)
-      },
-      editEvent: (_, eventObject) => {
-        const eventIndex = Events.findIndex(event => eventObject.nameToBeChanged === event.name)
-        Events[eventIndex].id = eventObject.id
-        Events[eventIndex].appId = eventObject.appId
-        Events[eventIndex].stageId = eventObject.stageId
-        Events[eventIndex].name = eventObject.name
-        Events[eventIndex].description = eventObject.description
-        Events[eventIndex].image = eventObject.image
-        Events[eventIndex].startsAt = eventObject.startsAt
-        Events[eventIndex].endsAt = eventObject.endsAt
-        return(eventObject)
-      },
-  }
+  Mutation: {
+    createApp: (_, appObject) => {
+      Apps.push(appObject);
+      return appObject;
+    },
+    createStage: (_, stageObject) => {
+      Stages.push(stageObject);
+      return stageObject;
+    },
+    createEvent: (_, eventObject) => {
+      Events.push(eventObject);
+      return eventObject;
+    },
+    removeApp: (_, appName) => {
+      const appIndex = Apps.findIndex((app) => appName.name === app.name);
+      Apps.splice(appIndex, 1);
+      return "Successfully removed App";
+    },
+    removeStage: (_, stageName) => {
+      const stageIndex = Stages.findIndex(
+        (stage) => stageName.name === stage.name
+      );
+      Stages.splice(stageIndex, 1);
+      return "Successfully removed Stage";
+    },
+    removeEvent: (_, eventName) => {
+      const eventIndex = Events.findIndex(
+        (event) => eventName.name === event.name
+      );
+      Events.splice(eventIndex, 1);
+      return "Successfully removed Event";
+    },
+    editApp: (_, appObject) => {
+      const appIndex = Apps.findIndex(
+        (app) => appObject.nameToBeChanged === app.name
+      );
+      Apps[appIndex].id = appObject.id;
+      Apps[appIndex].name = appObject.name;
+      return appObject;
+    },
+    editStage: (_, stageObject) => {
+      const stageIndex = Stages.findIndex(
+        (stage) => stageObject.nameToBeChanged === stage.name
+      );
+      Stages[stageIndex].id = stageObject.id;
+      Stages[stageIndex].name = stageObject.name;
+      return stageObject;
+    },
+    editEvent: (_, eventObject) => {
+      const eventIndex = Events.findIndex(
+        (event) => eventObject.nameToBeChanged === event.name
+      );
+      Events[eventIndex].id = eventObject.id;
+      Events[eventIndex].appId = eventObject.appId;
+      Events[eventIndex].stageId = eventObject.stageId;
+      Events[eventIndex].name = eventObject.name;
+      Events[eventIndex].description = eventObject.description;
+      Events[eventIndex].image = eventObject.image;
+      Events[eventIndex].startsAt = eventObject.startsAt;
+      Events[eventIndex].endsAt = eventObject.endsAt;
+      return eventObject;
+    },
+  },
 };
 
 // The ApolloServer constructor requires two parameters: your schema
@@ -260,8 +296,7 @@ const Events = [
     appId: "b81232dsa9-d81d-65121-bc1a-3b1235123356",
     stageId: "a6bb97dc-224c-4f8f-9af7-fd8b5731840f",
     name: "DJ ForsenBajs",
-    description:
-      "ForenBajs",
+    description: "ForenBajs",
     image: "horse.jpeg",
     startsAt: 1577923200,
     endsAt: 1577930400,
