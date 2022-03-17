@@ -29,19 +29,19 @@ const typeDefs = gql`
   # Users can query all apps or app by id
   type Query {
     allApps: [App]
-    appById(id: String!): App
+    appById(ID: String!): App
   }
   # Users can query all stages or stage by id
   type Query {
     allStages: [Stage]
-    stageById(id: String!): Stage
+    stageById(ID: String!): Stage
     stageByName(name: String!): Stage
     findStageByEvent(nameOfEvent: String!): [Stage]
   }
   # Users can query all events or event by id
   type Query {
     allEvents: [Event]
-    eventById(id: String!): Event
+    eventById(ID: String!): Event
     eventByName(name: String!): Event
     eventByDates(startDate: Int!, endDate: Int!): [Event]
     findEventByApp(nameOfApp: String!): [Event]
@@ -52,9 +52,9 @@ const typeDefs = gql`
     createApp(id: String!, name: String!): App
     createStage(id: String!, name: String!): Stage
     createEvent(id: String!, appId: String!, stageId: String!, name: String!, description: String!, image: String!, startsAt: Int!, endsAt: Int!): Event
-    editApp(existingAppName: String!, id: String!, name: String! ): App
-    editStage(existingStageName: String!, id: String!, name: String!): Stage
-    editEvent(existingEventName: String!, id: String!, appId: String!, stageId: String!, name: String!, description: String!, image: String!, startsAt: Int!, endsAt: Int!): Event
+    editApp(nameToBeChanged: String!, id: String!, name: String! ): App
+    editStage(nameToBeChanged: String!, id: String!, name: String!): Stage
+    editEvent(nameToBeChanged: String!, id: String!, appId: String!, stageId: String!, name: String!, description: String!, image: String!, startsAt: Int!, endsAt: Int!): Event
     removeApp(name: String!): App
     removeStage(name: String!): Stage
     removeEvent(name: String!): Event
@@ -68,13 +68,13 @@ const resolvers = {
     allStages: () => Stages,
     allEvents: () => Events,
     appById: (_, appId) => {
-      return Apps.find((app) => app.id === appId.id);
+      return Apps.find((app) => app.id === appId.ID);
     },
     stageById: (_, stageId) => {
-      return Stages.find((stage) => stage.id === stageId.id);
+      return Stages.find((stage) => stage.id === stageId.ID);
     },
     eventById: (_, eventId) => {
-      return Events.find((event) => event.id === eventId.id);
+      return Events.find((event) => event.id === eventId.ID);
     },
     stageByName: (_, stageName) => {
       return Stages.find((stage) => stage.name === stageName.name);
@@ -140,19 +140,33 @@ const resolvers = {
         Events.splice(eventIndex, 1)
         return "Successfully removed Event"
       },
-      // editApp: (_, appObject) => {
-      //   const app = Apps.find((app) => appObject.existingAppName === app.name)
-
-      //   return(appObject)
-      // },
-      // editStage: (_, stageObject) => {
-      //   Events.push(stageObject)
-      //   return(stageObject)
-      // },
-      // editEvent: (_, eventObject) => {
-      //   Events.push(eventObject)
-      //   return(eventObject)
-      // },
+      editApp: (_, appObject) => {
+        console.log(appObject)
+        console.log(Apps)
+        const appIndex = Apps.findIndex(app => appObject.nameToBeChanged === app.name)
+        Apps[appIndex].id = appObject.id
+        Apps[appIndex].name = appObject.name
+        console.log(Apps)
+        return (appObject)
+      },
+      editStage: (_, stageObject) => {
+        const stageIndex = Stages.findIndex(stage => stageObject.nameToBeChanged === stage.name)
+        Stages[stageIndex].id = stageObject.id
+        Stages[stageIndex].name = stageObject.name
+        return(stageObject)
+      },
+      editEvent: (_, eventObject) => {
+        const eventIndex = Events.findIndex(event => eventObject.nameToBeChanged === event.name)
+        Events[eventIndex].id = eventObject.id
+        Events[eventIndex].appId = eventObject.appId
+        Events[eventIndex].stageId = eventObject.stageId
+        Events[eventIndex].name = eventObject.name
+        Events[eventIndex].description = eventObject.description
+        Events[eventIndex].image = eventObject.image
+        Events[eventIndex].startsAt = eventObject.startsAt
+        Events[eventIndex].endsAt = eventObject.endsAt
+        return(eventObject)
+      },
   }
 };
 
