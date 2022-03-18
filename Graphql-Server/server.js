@@ -26,19 +26,19 @@ const typeDefs = gql`
     endsAt: Int
   }
 
-  # Users can query all apps or app by id
+  # Queries users can use with Apps
   type Query {
     allApps: [App]
     appById(ID: String!): App
   }
-  # Users can query all stages or stage by id
+  # Queries users can use with Stages
   type Query {
     allStages: [Stage]
     stageById(ID: String!): Stage
     stageByName(name: String!): Stage
     findStageByEvent(nameOfEvent: String!): [Stage]
   }
-  # Users can query all events or event by id
+  # Queries users can use with Events
   type Query {
     allEvents: [Event]
     eventById(ID: String!): Event
@@ -48,7 +48,9 @@ const typeDefs = gql`
     findEventByStage(nameOfStage: String!): [Event]
   }
 
+  # Mutations are ways you can change the data in your API. This includes Adding, Deleting, or Editing entries.
   type Mutation {
+    #Create operations require all fields an object has in order to be created.
     createApp(id: String!, name: String!): App
     createStage(id: String!, name: String!): Stage
     createEvent(
@@ -61,6 +63,7 @@ const typeDefs = gql`
       startsAt: Int!
       endsAt: Int!
     ): Event
+    #Like create operations, edit operations take all fields an object has to be able to edit them.
     editApp(nameToBeChanged: String!, id: String!, name: String!): App
     editStage(nameToBeChanged: String!, id: String!, name: String!): Stage
     editEvent(
@@ -74,13 +77,16 @@ const typeDefs = gql`
       startsAt: Int!
       endsAt: Int!
     ): Event
+    #Remove operations require a name input to find the object to delete.
     removeApp(name: String!): App
     removeStage(name: String!): Stage
     removeEvent(name: String!): Event
   }
 `;
 
+// Resolvers handle the logic of the different queries and mutations.
 const resolvers = {
+  // Query operations involve the fetching of data to display.
   Query: {
     allApps: () => Apps,
     allStages: () => Stages,
@@ -131,7 +137,9 @@ const resolvers = {
       return stageEvents;
     },
   },
+  // Mutation operations involve the creation, deletion, or editing of objects within the database.
   Mutation: {
+    // Create operations take the object sent from the request and append it to the specified database array.
     createApp: (_, appObject) => {
       Apps.push(appObject);
       return appObject;
@@ -144,6 +152,8 @@ const resolvers = {
       Events.push(eventObject);
       return eventObject;
     },
+    // Remove operations find the index of the object sent from the request
+    // it then splices that object from the array in order to remove it.
     removeApp: (_, appName) => {
       const appIndex = Apps.findIndex((app) => appName.name === app.name);
       Apps.splice(appIndex, 1);
@@ -163,6 +173,9 @@ const resolvers = {
       Events.splice(eventIndex, 1);
       return "Successfully removed Event";
     },
+    // Edit operations takes an entire object from the frontend including a field 
+    // that specifies what object to edit in the database. Once that object 
+    // to be edited is found via index, the object values are overwritten and returned.
     editApp: (_, appObject) => {
       const appIndex = Apps.findIndex(
         (app) => appObject.nameToBeChanged === app.name
@@ -205,6 +218,7 @@ server.listen().then(({ url }) => {
   console.log(`🚀  Server ready at ${url}`);
 });
 
+// Database data
 const Apps = [
   {
     id: "b810bf6d-d81d-4104-bc1a-3b21d5154076",
